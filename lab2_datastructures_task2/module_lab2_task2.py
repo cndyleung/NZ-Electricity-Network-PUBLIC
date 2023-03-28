@@ -101,12 +101,74 @@ class Network(object):
 
     # **these methods are incomplete, you must complete them as part of the lab task**
     def add_node(self, name, value=None):
+        """
+        Adds a new node object to the network.
+
+        Parameters:
+        -----------
+        name : str
+            Name of node.
+        value : int, bool, str
+            A value associated with the node. If not provided, it has a default value of None
+
+        Returns:
+        --------
+        None
+        """
+        new_node = Node(name, value)
+        self.nodes.append(new_node)
         pass
 
-    def add_arc(self, node_from, node_to, weight):
+    def add_arc(self, weight, node_from, node_to):
+        """
+        Adds a new arc object to the network.
+
+        Parameters:
+        -----------
+        node_from : Node object
+            Represents the source of the arc.
+        node_to : Node object
+            Represents the destination of the arc.
+        weight : float
+            Represents the arc value/weight
+
+        Returns:
+        --------
+        None
+        """
+        new_arc = Arc(weight, node_from, node_to)
+        self.arcs.append(new_arc)
+        node_to.arcs_in.append(new_arc)
+        node_from.arcs_out.append(new_arc)
         pass
 
     def read_network(self, filename):
+        """
+        Return network node with name.
+
+        Parameters:
+        -----------
+        name : str
+            Name of node to return.
+
+        Returns:
+        --------
+        node : Node or None
+            Node object (defined above) with corresponding name, or None if not found.
+        """
+        with open('network.txt', 'r') as fp:
+            line = None
+            while line != '':
+                line = fp.readline().strip()
+                items = line.split(',')
+                self.add_node(items[0])
+                x = range(1, len(items))
+
+                for i in x:
+                    self.add_node(items[i])
+                    self.add_arc(items[i])
+                line = fp.readline().strip
+
         pass
 
 
