@@ -108,7 +108,7 @@ class Network(object):
         -----------
         name : str
             Name of node.
-        value : int, bool, str
+        value : float, int, bool, str, list, etc...
             A value associated with the node. If not provided, it has a default value of None
 
         Returns:

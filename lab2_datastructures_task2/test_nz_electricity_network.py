@@ -2,7 +2,7 @@ import pytest
 from module_lab2_task2 import *
 
 
-# MODULE 1 UNIT TESTT
+# MODULE 1 UNIT TEST
 def test_add_node():
     test = Network()
 
