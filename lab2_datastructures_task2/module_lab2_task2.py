@@ -46,10 +46,10 @@ class Arc(object):
     from_node : Node
         Node object at which arc begins.
     """
-    def __init__(self, weight=None, from_node=None, to_node=None):
-        self.weight = weight
+    def __init__(self, from_node=None, to_node=None, weight=None):
         self.from_node = from_node
         self.to_node = to_node
+        self.weight = weight
 
     def __repr__(self):
         return f"arc:({self.from_node.name})--{self.weight}-->({self.to_node.name})"
@@ -117,9 +117,8 @@ class Network(object):
         """
         new_node = Node(name, value)
         self.nodes.append(new_node)
-        pass
 
-    def add_arc(self, weight, node_from, node_to):
+    def add_arc(self, node_from, node_to, weight):
         """
         Adds a new arc object to the network.
 
@@ -136,11 +135,10 @@ class Network(object):
         --------
         None
         """
-        new_arc = Arc(weight, node_from, node_to)
+        new_arc = Arc(node_from, node_to, weight)
         self.arcs.append(new_arc)
         node_to.arcs_in.append(new_arc)
         node_from.arcs_out.append(new_arc)
-        pass
 
     def read_network(self, filename):
         """
@@ -156,20 +154,29 @@ class Network(object):
         node : Node or None
             Node object (defined above) with corresponding name, or None if not found.
         """
-        with open('network.txt', 'r') as fp:
-            line = None
+
+        with open(filename, 'r') as fp:
+            line = fp.readline().strip()
+
             while line != '':
-                line = fp.readline().strip()
                 items = line.split(',')
-                self.add_node(items[0])
-                x = range(1, len(items))
 
-                for i in x:
-                    self.add_node(items[i])
-                    self.add_arc(items[i])
-                line = fp.readline().strip
+                from_node = items[0]
 
-        pass
+                if self.get_node(items[0]) is None:
+                    self.add_node(from_node)
+
+                for i in range(1, len(items)):
+                    attributes = items[i].split(';')
+                    to_node = attributes[0]
+
+                    if self.get_node(attributes[0]) is None:
+                        self.add_node(to_node)
+
+                    weight = float(attributes[1])
+                    self.add_arc(self.get_node(from_node), self.get_node(to_node), weight)
+
+                line = fp.readline().strip()
 
 
 class NetworkElectricNZ(Network):
@@ -313,9 +320,10 @@ class NetworkElectricNZ(Network):
         if save:
 
             # save to file
-            plt.savefig(save, dpi=300, facecolor='w', edgecolor='w', orientation='portrait', papertype=None,
-                        format=None, transparent=False, bbox_inches=None, pad_inches=0.1, frameon=None, metadata=md)
+            plt.savefig(save, dpi=300, facecolor='w', edgecolor='w', orientation='portrait',
+                        format=None, transparent=False, bbox_inches=None, pad_inches=0.1, metadata=md)
             plt.close()
         else:
             # open figure window in screen
             plt.show()
+

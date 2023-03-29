@@ -1,0 +1,12 @@
+There are 19 nodes in the network.
+
+There are 22 arcs in the network.
+
+The largest arc in the network is arc:(OTA)--1779.7822564705882-->(HLY).
+
+The source node is node:OTA.
+
+The destination node is node:HLY.
+
+This arc joins node:OTA to node:HLY.
+
