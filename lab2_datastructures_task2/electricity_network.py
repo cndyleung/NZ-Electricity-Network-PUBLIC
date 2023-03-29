@@ -19,4 +19,4 @@ with open("network_answers.txt", 'w') as fp:
     fp.write(f"What is the largest arc weight in the network? Which nodes does it join, noting the source and "
              f"destination node name.\n")
     fp.write(f"The largest arc in the network is {biggest_arc}. This arc joins the source {biggest_arc.from_node}"
-             f" to the\ndestination {biggest_arc.to_node}.\n")
+             f" to the destination {biggest_arc.to_node}.\n")
