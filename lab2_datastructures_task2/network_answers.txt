@@ -1,12 +1,9 @@
+How many nodes are there in the network?
 There are 19 nodes in the network.
 
+How many arcs are there in the network?
 There are 22 arcs in the network.
 
-The largest arc in the network is arc:(OTA)--1779.7822564705882-->(HLY).
-
-The source node is node:OTA.
-
-The destination node is node:HLY.
-
-This arc joins node:OTA to node:HLY.
-
+What is the largest arc weight in the network? Which nodes does it join, noting the source and destination node name.
+The largest arc in the network is arc:(OTA)--1779.7822564705882-->(HLY). This arc joins the source node:OTA to the
+destination node:HLY.

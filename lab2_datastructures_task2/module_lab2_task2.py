@@ -115,7 +115,10 @@ class Network(object):
         --------
         None
         """
+        # Create a new node
         new_node = Node(name, value)
+
+        # Append this new node to an already existing list of nodes
         self.nodes.append(new_node)
 
     def add_arc(self, node_from, node_to, weight):
@@ -135,47 +138,63 @@ class Network(object):
         --------
         None
         """
+        # Create a new arc
         new_arc = Arc(node_from, node_to, weight)
+
+        # Append this new arc to an already existing list of arcs
         self.arcs.append(new_arc)
+
+        # Update the node attributes
         node_to.arcs_in.append(new_arc)
         node_from.arcs_out.append(new_arc)
 
     def read_network(self, filename):
         """
-        Return network node with name.
+        Opens and reads data from a "network" data file.
 
         Parameters:
         -----------
-        name : str
-            Name of node to return.
+        filename : str
+            Name of network data file.
 
         Returns:
         --------
-        node : Node or None
-            Node object (defined above) with corresponding name, or None if not found.
+        None
         """
 
+        # Open file in read mode
         with open(filename, 'r') as fp:
+            # Read a single line in the file and remove any leading or trailing white space from the line
             line = fp.readline().strip()
 
+            # Continue reading lines from the file until an empty line in encountered
             while line != '':
+                # Split each line into a list of items with a comma as a delimiter
                 items = line.split(',')
 
+                # The first item in the items list is the source node from which the arc originates
                 from_node = items[0]
-
+                # If the node object doesn't already exist it is added to the network
                 if self.get_node(items[0]) is None:
                     self.add_node(from_node)
 
+                # For the remaining items in the line they are split into attributes with the delimiter of a semicolon
                 for i in range(1, len(items)):
                     attributes = items[i].split(';')
-                    to_node = attributes[0]
+                    # The first item in the attributes list is the destination node
 
+                    to_node = attributes[0]
+                    # If the node object doesn't already exist it is added to the network
                     if self.get_node(attributes[0]) is None:
                         self.add_node(to_node)
 
+                    # The second item in the attributes list is the arc weight. Convert to float.
                     weight = float(attributes[1])
+
+                    # Arc is added to the network
                     self.add_arc(self.get_node(from_node), self.get_node(to_node), weight)
 
+                # Get the next line in the network file
                 line = fp.readline().strip()
 
 
@@ -326,4 +345,3 @@ class NetworkElectricNZ(Network):
         else:
             # open figure window in screen
             plt.show()
-
